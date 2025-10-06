@@ -42,7 +42,7 @@ test_frontend:
   script:
     - cd frontend
     - npm ci
-    - npm run test -- --coverage --watchAll=false --ci
+    - CI=true npm run test -- --coverage --coverageReporters=cobertura --watchAll=false --ci
   artifacts:
     paths:
       - frontend/coverage/
