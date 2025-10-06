@@ -9,6 +9,7 @@ cache:
     - frontend/node_modules/
 
 stages:
+  - test_front
   - test
 
 test_backend:
@@ -37,7 +38,7 @@ test_backend:
     when: always
 
 test_frontend:
-  stage: test
+  stage: test_front
   image: node:18
   script:
     - cd frontend
