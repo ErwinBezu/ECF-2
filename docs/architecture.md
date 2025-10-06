@@ -79,6 +79,7 @@ Chaque service a un healthcheck pour garantir le démarrage dans le bon ordre :
 ```bash
 docker-compose up
 ```
+### Testing
 
 Tentative des tests avec gitlab-ci
 Le back fonctionne et le job passe par contre pour le front je fini sur une erreur a cause de employeeList.test.js  
