@@ -1,0 +1,53 @@
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+  MAVEN_CLI_OPTS: "-B -Dmaven.test.failure.ignore=false"
+
+cache:
+  key: "${CI_COMMIT_SHORT_SHA}-fullstack"
+  paths:
+    - backend/.m2/repository
+    - frontend/node_modules/
+
+stages:
+  - test
+
+test_backend:
+  stage: test
+  image: maven:3.8.6-openjdk-11
+  services:
+    - name: mysql:8.0
+      alias: mysql
+    - name: mongo:6.0
+      alias: mongodb
+  variables:
+    MYSQL_ROOT_PASSWORD: password
+    MYSQL_DATABASE: employee_management
+    SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/employee_management
+    SPRING_DATASOURCE_USERNAME: root
+    SPRING_DATASOURCE_PASSWORD: password
+    SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/employee_management
+  script:
+    - cd backend
+    - mvn clean verify $MAVEN_CLI_OPTS
+  artifacts:
+    paths:
+      - backend/target/surefire-reports/
+    reports:
+      junit: backend/target/surefire-reports/TEST-*.xml
+    when: always
+
+test_frontend:
+  stage: test
+  image: node:18
+  script:
+    - cd frontend
+    - npm ci
+    - npm run test -- --coverage --watchAll=false --ci
+  artifacts:
+    paths:
+      - frontend/coverage/
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: frontend/coverage/cobertura-coverage.xml
+    when: always

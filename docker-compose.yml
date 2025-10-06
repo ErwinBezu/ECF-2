@@ -1,0 +1,48 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "8085:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/employee_management
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/employee_management
+    depends_on:
+      mysql:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: employee_management
+    ports:
+      - "3307:3306" #changement du port parce que j'ai un mysql qui tourne sur ce port en local
+    healthcheck:
+      test: [ "CMD-SHELL", "mysqladmin ping -h localhost -p'password'" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+
+  mongodb:
+    image: mongo:6.0
+    ports:
+      - "27018:27017" #changement du port parce que j'ai un mongo qui tourne sur ce port en local
+    healthcheck:
+      test: [ "CMD", "mongosh", "--eval", "db.adminCommand('ping')" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
