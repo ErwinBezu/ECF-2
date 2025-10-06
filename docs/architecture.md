@@ -75,6 +75,12 @@ Chaque service a un healthcheck pour garantir le démarrage dans le bon ordre :
 2. Backend attend que les BDD soient "healthy"
 3. Frontend démarre après le backend.
 
-### Développement
+### Commandes
 ```bash
 docker-compose up
+```
+
+Tentative des tests avec gitlab-ci
+Le back fonctionne et le job passe par contre pour le front je fini sur une erreur a cause de employeeList.test.js  
+Je n'ai pas le temps de creuser plus là dessus donc ça va rester en l'état.  
+Mais je pense qu'en shuntant les fichiers que nous avont du créer, le job va passer. 

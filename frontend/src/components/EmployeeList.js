@@ -54,7 +54,7 @@ const EmployeeList = () => {
 
     const handleSearchChange = event => {
         setSearchTerm(event.target.value);
-        setPage(0); // Reset page to 0 whenever search term changes
+        setPage(0);
     };
 
     const handleChangePage = (event, newPage) => {
@@ -63,7 +63,7 @@ const EmployeeList = () => {
 
     const handleChangeRowsPerPage = event => {
         setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0); // Reset page to 0 when rows per page changes
+        setPage(0);
     };
 
     const filteredEmployees = employees.filter(
