@@ -71,9 +71,9 @@ Les conteneurs communiquent entre eux via les ports internes standards.
 ### Healthchecks
 
 Chaque service a un healthcheck pour garantir le démarrage dans le bon ordre :
-1. MySQL et MongoDB démarrent
+1. MySQL et MongoDB démarrent.
 2. Backend attend que les BDD soient "healthy"
-3. Frontend démarre après le backend
+3. Frontend démarre après le backend.
 
 ### Développement
 ```bash
